@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario de Sacos - Codecyt</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+        <%- include('../partials/navbar') %>
+
+    <div class="container py-5">
+        <h1 class="mb-4 text-success">📦 Inventario de Sacos</h1>
+
+        <div class="card mb-4 p-4 shadow-sm border-0">
+            <form action="/sacos" method="POST" class="row g-3">
+                <div class="col-md-3">
+                    <input type="text" name="codigoSaco" class="form-control" placeholder="Código (Ej: SC-001)" required>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="tipoProducto" class="form-control" placeholder="Producto (Ej: Maíz)" required>
+                </div>
+                <div class="col-md-2">
+                    <input type="number" name="cantidadActual" class="form-control" placeholder="Kg iniciales" required>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-success w-100">Registrar Saco</button>
+                </div>
+            </form>
+        </div>
+
+        <form action="/sacos" method="GET" class="input-group mb-4 w-50">
+            <input type="text" name="search" class="form-control" placeholder="Buscar por código..." value="<%= typeof search !== 'undefined' ? search : '' %>">
+            <button class="btn btn-primary" type="submit">Buscar</button>
+        </form>
+
+        <table class="table table-hover bg-white shadow-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Código</th>
+                    <th>Producto</th>
+                    <th>Stock Actual</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% sacos.forEach(s => { %>
+                <tr class="align-middle">
+                    <td class="fw-bold"><%= s.codigoSaco %></td>
+                    <td><%= s.tipoProducto %></td>
+                    <td><span class="badge bg-primary fs-6"><%= s.cantidadActual %> kg</span></td>
+                    <td class="text-center">
+                        <a href="/sacos/delete/<%= s._id %>" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar este saco?')">Borrar</a>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
