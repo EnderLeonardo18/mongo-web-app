@@ -20,6 +20,16 @@ export const getAllSacos = async (req: Request, res: Response) => {
     }
 };
 
+export const getSacoById = async (req: Request, res: Response) => {
+    try {
+        const saco = await InventarioSaco.findById(req.params.id);
+        if (!saco) return res.status(404).send("Saco no encontrado");
+        res.render('sacos/edit', { saco });
+    } catch (error: any) {
+        res.status(500).send(error.message);
+    }
+};
+
 export const createSaco = async (req: Request, res: Response) => {
     try {
         await InventarioSaco.create(req.body);

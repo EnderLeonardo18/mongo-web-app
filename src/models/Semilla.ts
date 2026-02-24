@@ -1,4 +1,4 @@
-import { Schema, model, type Document } from 'mongoose';
+import mongoose, { Schema, model, type Document } from 'mongoose';
 
 export interface ISemilla extends Document {
     nombreCientifico: string;
@@ -10,12 +10,12 @@ export interface ISemilla extends Document {
 }
 
 const semillaSchema = new Schema<ISemilla>({
-    nombreCientifico: String,
+    nombreCientifico: { type: String, required: true },
     variedad: String,
     codigoLote: String,
     origen: String,
     indiceGerminacion: Number,
-    fechaPrueba: Date
+    fechaPrueba: { type: Date, default: Date.now }
 });
 
-export default model('Semilla', semillaSchema);
+export default mongoose.models.Semilla || model<ISemilla>('Semilla', semillaSchema);

@@ -2,60 +2,95 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Inventario de Sacos - Codecyt</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Inventario de Sacos - AgroSistema</title>
 </head>
-<body class="bg-light">
+<body class="bg-gray-50">
+    <%- include('../partials/navbar') %>
 
-        <%- include('../partials/navbar') %>
+    <div class="container mx-auto p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-extrabold text-gray-800">📦 Inventario de Sacos</h2>
+            <form action="/sacos" method="GET" class="flex gap-2">
+                <input type="text" name="search" value="<%= search %>" placeholder="Buscar código o producto..." class="border p-2 rounded-lg w-64 outline-none focus:ring-2 focus:ring-emerald-500">
+                <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700">Buscar</button>
+            </form>
+        </div>
 
-    <div class="container py-5">
-        <h1 class="mb-4 text-success">📦 Inventario de Sacos</h1>
-
-        <div class="card mb-4 p-4 shadow-sm border-0">
-            <form action="/sacos" method="POST" class="row g-3">
-                <div class="col-md-3">
-                    <input type="text" name="codigoSaco" class="form-control" placeholder="Código (Ej: SC-001)" required>
+        <div class="bg-white p-6 rounded-xl shadow-lg mb-8 border border-gray-100">
+            <h3 class="text-lg font-bold mb-4 text-emerald-700">➕ Registrar Entrada de Stock</h3>
+            <form action="/sacos" method="POST" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 mb-1">CÓDIGO DE SACO</label>
+                    <input type="text" name="codigoSaco" placeholder="Ej: SAC-001" class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none" required>
                 </div>
-                <div class="col-md-3">
-                    <input type="text" name="tipoProducto" class="form-control" placeholder="Producto (Ej: Maíz)" required>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 mb-1">PRODUCTO</label>
+                    <input type="text" name="tipoProducto" placeholder="Ej: Maíz Amarillo" class="w-full border p-3 rounded-lg outline-none">
                 </div>
-                <div class="col-md-2">
-                    <input type="number" name="cantidadActual" class="form-control" placeholder="Kg iniciales" required>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 mb-1">PESO (KG)</label>
+                    <input type="number" name="pesoNetoKg" placeholder="Ej: 50" class="w-full border p-3 rounded-lg outline-none">
                 </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-success w-100">Registrar Saco</button>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 mb-1">CANTIDAD</label>
+                    <input type="number" name="cantidadDisponible" placeholder="Sacos en físico" class="w-full border p-3 rounded-lg outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 mb-1">ESTADO (UBICACIÓN)</label>
+                    <select name="ubicacion" class="w-full border p-3 rounded-lg bg-white outline-none focus:ring-2 focus:ring-emerald-500">
+                        <option value="" disabled selected>Seleccione un estado...</option>
+                        <option value="Amazonas">Amazonas</option> <option value="Anzoátegui">Anzoátegui</option>
+                        <option value="Apure">Apure</option> <option value="Aragua">Aragua</option>
+                        <option value="Barinas">Barinas</option> <option value="Bolívar">Bolívar</option>
+                        <option value="Carabobo">Carabobo</option> <option value="Cojedes">Cojedes</option>
+                        <option value="Delta Amacuro">Delta Amacuro</option> <option value="Distrito Capital">Distrito Capital</option>
+                        <option value="Falcón">Falcón</option> <option value="Guárico">Guárico</option>
+                        <option value="Lara">Lara</option> <option value="Mérida">Mérida</option>
+                        <option value="Miranda">Miranda</option> <option value="Monagas">Monagas</option>
+                        <option value="Nueva Esparta">Nueva Esparta</option> <option value="Portuguesa">Portuguesa</option>
+                        <option value="Sucre">Sucre</option> <option value="Táchira">Táchira</option>
+                        <option value="Trujillo">Trujillo</option> <option value="Vargas">La Guaira (Vargas)</option>
+                        <option value="Yaracuy">Yaracuy</option> <option value="Zulia">Zulia</option>
+                        <option value="Dependencias Federales">Dependencias Federales</option>
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button type="submit" class="w-full bg-emerald-600 text-white p-3 rounded-lg font-bold hover:bg-emerald-700 transition">Guardar Registro</button>
                 </div>
             </form>
         </div>
 
-        <form action="/sacos" method="GET" class="input-group mb-4 w-50">
-            <input type="text" name="search" class="form-control" placeholder="Buscar por código..." value="<%= typeof search !== 'undefined' ? search : '' %>">
-            <button class="btn btn-primary" type="submit">Buscar</button>
-        </form>
-
-        <table class="table table-hover bg-white shadow-sm">
-            <thead class="table-dark">
-                <tr>
-                    <th>Código</th>
-                    <th>Producto</th>
-                    <th>Stock Actual</th>
-                    <th class="text-center">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% sacos.forEach(s => { %>
-                <tr class="align-middle">
-                    <td class="fw-bold"><%= s.codigoSaco %></td>
-                    <td><%= s.tipoProducto %></td>
-                    <td><span class="badge bg-primary fs-6"><%= s.cantidadActual %> kg</span></td>
-                    <td class="text-center">
-                        <a href="/sacos/delete/<%= s._id %>" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar este saco?')">Borrar</a>
-                    </td>
-                </tr>
-                <% }) %>
-            </tbody>
-        </table>
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-800 text-white">
+                        <th class="p-4">Código</th>
+                        <th class="p-4">Producto</th>
+                        <th class="p-4">Peso</th>
+                        <th class="p-4 text-center">Stock</th>
+                        <th class="p-4">Ubicación</th>
+                        <th class="p-4 text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% sacos.forEach(saco => { %>
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="p-4 font-mono font-bold text-emerald-700"><%= saco.codigoSaco %></td>
+                        <td class="p-4"><%= saco.tipoProducto %></td>
+                        <td class="p-4"><%= saco.pesoNetoKg %> kg</td>
+                        <td class="p-4 text-center font-bold text-blue-600"><%= saco.cantidadDisponible %></td>
+                        <td class="p-4 text-gray-600"><%= saco.ubicacion %></td>
+                        <td class="p-4 flex justify-center gap-3">
+                            <a href="/sacos/<%= saco._id %>" class="text-blue-600 hover:underline">Editar</a>
+                            <a href="/sacos/delete/<%= saco._id %>" class="text-red-600 hover:underline" onclick="return confirm('¿Eliminar?')">Borrar</a>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>

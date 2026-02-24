@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Editar Semilla - AgroSistema</title>
+</head>
+<body class="bg-gray-50">
+    <%- include('../partials/navbar') %>
+
+    <div class="container mx-auto p-6 max-w-3xl">
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border-t-8 border-emerald-600">
+            <div class="p-8">
+                <h2 class="text-3xl font-black text-emerald-900 mb-8 flex items-center gap-2">
+                    🧪 Editar Lote de Semilla
+                </h2>
+
+                <form action="/semillas/<%= semilla._id %>?_method=PUT" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <label class="text-xs font-black text-emerald-800 ml-1 uppercase">Nombre Científico / Rubro</label>
+                        <input type="text" name="nombreCientifico" value="<%= semilla.nombreCientifico %>" class="w-full border-2 p-4 rounded-xl focus:border-emerald-500 outline-none" required>
+                    </div>
+                    <div>
+                        <label class="text-xs font-black text-emerald-800 ml-1 uppercase">Variedad</label>
+                        <input type="text" name="variedad" value="<%= semilla.variedad %>" class="w-full border-2 p-4 rounded-xl outline-none">
+                    </div>
+                    <div>
+                        <label class="text-xs font-black text-emerald-800 ml-1 uppercase">Código de Lote</label>
+                        <input type="text" name="codigoLote" value="<%= semilla.codigoLote %>" class="w-full border-2 p-4 rounded-xl outline-none">
+                    </div>
+                    <div>
+                        <label class="text-xs font-black text-emerald-800 ml-1 uppercase">Estado de Origen</label>
+                        <select name="origen" class="w-full border-2 p-4 rounded-xl bg-white outline-none">
+                            <% const estados = ["Amazonas", "Anzoátegui", "Apure", "Aragua", "Barinas", "Bolívar", "Carabobo", "Cojedes", "Delta Amacuro", "Distrito Capital", "Falcón", "Guárico", "Lara", "Mérida", "Miranda", "Monagas", "Nueva Esparta", "Portuguesa", "Sucre", "Táchira", "Trujillo", "Vargas", "Yaracuy", "Zulia"]; %>
+                            <% estados.forEach(estado => { %>
+                                <option value="<%= estado %>" <%= semilla.origen === estado ? 'selected' : '' %>><%= estado %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs font-black text-emerald-800 ml-1 uppercase">% Germinación</label>
+                        <input type="number" name="indiceGerminacion" value="<%= semilla.indiceGerminacion %>" class="w-full border-2 p-4 rounded-xl outline-none">
+                    </div>
+
+                    <div class="md:col-span-2 flex gap-4 mt-4">
+                        <button type="submit" class="flex-grow bg-emerald-700 text-white py-4 rounded-xl font-black hover:bg-emerald-900 transition shadow-lg uppercase tracking-wider">
+                            Guardar Cambios
+                        </button>
+                        <a href="/semillas" class="bg-gray-100 text-gray-500 px-8 py-4 rounded-xl font-bold hover:bg-gray-200 transition text-center flex items-center">
+                            Volver
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

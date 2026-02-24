@@ -1,20 +1,19 @@
-import { Schema, model, type Document, type Types } from 'mongoose';
-
+import mongoose, { Schema, model, type Document } from 'mongoose';
 
 export interface IReporte extends Document {
     titulo: string;
     tipoReporte: string;
-    generadoPor: Types.ObjectId;
+    autor: string;
     fechaGeneracion: Date;
-    contenido: any; // O un tipo más específico si sabes la estructura
+    contenido: string;
 }
 
 const reporteSchema = new Schema<IReporte>({
     titulo: String,
     tipoReporte: String,
-    generadoPor: { type: Schema.Types.ObjectId, ref: 'Usuario' }, // Relación con User
+    autor: String,
     fechaGeneracion: { type: Date, default: Date.now },
-    contenido: { type: Schema.Types.Mixed}
+    contenido: String
 });
 
-export default model('Reporte', reporteSchema);
+export default mongoose.models.Reporte || model<IReporte>('Reporte', reporteSchema);

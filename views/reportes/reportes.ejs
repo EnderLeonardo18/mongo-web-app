@@ -2,38 +2,58 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Reportes - Codecyt</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Reportes - AgroSistema</title>
 </head>
-<body class="bg-light">
+<body class="bg-gray-100">
+    <%- include('../partials/navbar') %>
 
-        <%- include('../partials/navbar') %>
+    <div class="container mx-auto p-6">
+        <h2 class="text-3xl font-bold mb-8 text-gray-800 border-l-8 border-emerald-600 pl-4">📑 Gestión de Reportes</h2>
 
-    <div class="container py-5">
-        <h1 class="mb-4 text-secondary">📊 Reportes del Sistema</h1>
+        <form action="/reportes" method="POST" class="bg-white p-8 rounded-2xl shadow-xl mb-10 border border-gray-200">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-emerald-700 uppercase mb-2">Título del Informe</label>
+                    <input type="text" name="titulo" placeholder="Ej: Auditoría de Inventario Mayo 2024" class="w-full border-2 p-3 rounded-lg focus:ring-4 focus:ring-emerald-100 outline-none transition" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-emerald-700 uppercase mb-2">Categoría</label>
+                    <input type="text" name="tipoReporte" placeholder="Ej: Mensual" class="w-full border-2 p-3 rounded-lg outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-emerald-700 uppercase mb-2">Autor</label>
+                    <input type="text" name="autor" placeholder="Nombre del responsable" class="w-full border-2 p-3 rounded-lg outline-none focus:border-emerald-500">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-emerald-700 uppercase mb-2">Observaciones Detalladas</label>
+                    <textarea name="contenido" placeholder="Escriba aquí el reporte..." class="w-full border-2 p-4 rounded-lg h-32 outline-none focus:border-emerald-500"></textarea>
+                </div>
+            </div>
+            <button class="mt-6 bg-emerald-600 text-white px-12 py-4 rounded-lg font-black hover:bg-emerald-800 transition shadow-lg uppercase">
+                Emitir Reporte
+            </button>
+        </form>
 
-        <table class="table table-striped bg-white shadow-sm">
-            <thead class="table-dark">
-                <tr>
-                    <th>Título</th>
-                    <th>Generado por</th>
-                    <th>Fecha</th>
-                    <th class="text-center">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% reportes.forEach(r => { %>
-                <tr class="align-middle">
-                    <td><%= r.titulo %></td>
-                    <td><%= r.generadoPor ? r.generadoPor.nombre : 'Sistema' %></td>
-                    <td><%= new Date(r.fechaGeneracion).toLocaleDateString() %></td>
-                    <td class="text-center">
-                        <a href="/reportes/<%= r._id %>" class="btn btn-sm btn-outline-primary">Ver Detalles</a>
-                    </td>
-                </tr>
-                <% }) %>
-            </tbody>
-        </table>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <% reportes.forEach(repo => { %>
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-emerald-600 hover:shadow-2xl transition">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase"><%= repo.tipoReporte %></span>
+                    <span class="text-gray-400 text-xs"><%= repo.fechaGeneracion.toLocaleDateString() %></span>
+                </div>
+                <h3 class="font-bold text-xl text-gray-800 mb-3"><%= repo.titulo %></h3>
+                <p class="text-gray-600 text-sm line-clamp-3 mb-6"><%= repo.contenido %></p>
+                <div class="flex justify-between items-center border-t pt-4">
+                    <span class="text-xs font-medium text-gray-500">Por: <%= repo.autor %></span>
+                    <div class="flex gap-4">
+                        <a href="/reportes/<%= repo._id %>" class="text-emerald-600 hover:text-emerald-800 text-sm font-bold">Editar</a>
+                        <a href="/reportes/delete/<%= repo._id %>" class="text-red-500 hover:text-red-700 text-sm font-bold" onclick="return confirm('¿Eliminar reporte?')">Borrar</a>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+        </div>
     </div>
 </body>
 </html>

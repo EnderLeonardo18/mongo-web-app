@@ -1,4 +1,4 @@
-import { Schema, model, type Document } from 'mongoose';
+import mongoose, { Schema, model, type Document } from 'mongoose';
 
 export interface IInventarioSaco extends Document {
     codigoSaco: string;
@@ -6,16 +6,14 @@ export interface IInventarioSaco extends Document {
     pesoNetoKg: number;
     cantidadDisponible: number;
     ubicacion: string;
-    fechaEntrada: Date;
 }
 
 const sacoSchema = new Schema<IInventarioSaco>({
-    codigoSaco: String,
+    codigoSaco: { type: String, required: true },
     tipoProducto: String,
     pesoNetoKg: Number,
     cantidadDisponible: Number,
-    ubicacion: String,
-    fechaEntrada: Date
+    ubicacion: String
 });
 
-export default model('InventarioSaco', sacoSchema);
+export default mongoose.models.InventarioSaco || model<IInventarioSaco>('InventarioSaco', sacoSchema);

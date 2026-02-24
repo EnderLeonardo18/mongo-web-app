@@ -2,37 +2,85 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Banco de Semillas - Codecyt</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Semillas Certificadas - AgroSistema</title>
 </head>
-<body class="bg-light">
+<body class="bg-gray-50">
+    <%- include('../partials/navbar') %>
 
-        <%- include('../partials/navbar') %>
+    <div class="container mx-auto p-6">
+        <h2 class="text-3xl font-extrabold text-emerald-800 mb-6">🧪 Variedades y Lotes</h2>
 
-    <div class="container py-5">
-        <h1 class="mb-4 text-info">🌱 Banco de Semillas</h1>
-
-        <div class="card mb-4 p-4 shadow-sm border-0">
-            <form action="/semillas" method="POST" class="row g-3">
-                <div class="col-md-4"><input name="nombreCientifico" class="form-control" placeholder="Nombre Científico" required></div>
-                <div class="col-md-4"><input name="variedad" class="form-control" placeholder="Variedad" required></div>
-                <div class="col-md-2"><button class="btn btn-info w-100">Guardar</button></div>
+        <div class="bg-white p-6 rounded-2xl shadow-lg mb-8 border-t-8 border-emerald-500">
+            <form action="/semillas" method="POST" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="md:col-span-2">
+                    <label class="text-xs font-black text-emerald-900 ml-1">NOMBRE CIENTÍFICO / RUBRO</label>
+                    <input type="text" name="nombreCientifico" placeholder="Ej: Oryza sativa (Arroz)" class="w-full border-2 p-3 rounded-xl focus:border-emerald-500 outline-none" required>
+                </div>
+                <div>
+                    <label class="text-xs font-black text-emerald-900 ml-1">VARIEDAD</label>
+                    <input type="text" name="variedad" placeholder="Ej: Cimarrón" class="w-full border-2 p-3 rounded-xl outline-none">
+                </div>
+                <div>
+                    <label class="text-xs font-black text-emerald-900 ml-1">CÓDIGO DE LOTE</label>
+                    <input type="text" name="codigoLote" placeholder="LOTE-2024" class="w-full border-2 p-3 rounded-xl outline-none">
+                </div>
+                <div>
+                    <label class="text-xs font-black text-emerald-900 ml-1">ESTADO DE ORIGEN</label>
+                    <select name="origen" class="w-full border-2 p-3 rounded-xl bg-white outline-none">
+                        <option value="" disabled selected>Seleccione origen...</option>
+                        <option value="Amazonas">Amazonas</option> <option value="Anzoátegui">Anzoátegui</option>
+                        <option value="Apure">Apure</option> <option value="Aragua">Aragua</option>
+                        <option value="Barinas">Barinas</option> <option value="Bolívar">Bolívar</option>
+                        <option value="Carabobo">Carabobo</option> <option value="Cojedes">Cojedes</option>
+                        <option value="Delta Amacuro">Delta Amacuro</option> <option value="Distrito Capital">Distrito Capital</option>
+                        <option value="Falcón">Falcón</option> <option value="Guárico">Guárico</option>
+                        <option value="Lara">Lara</option> <option value="Mérida">Mérida</option>
+                        <option value="Miranda">Miranda</option> <option value="Monagas">Monagas</option>
+                        <option value="Nueva Esparta">Nueva Esparta</option> <option value="Portuguesa">Portuguesa</option>
+                        <option value="Sucre">Sucre</option> <option value="Táchira">Táchira</option>
+                        <option value="Trujillo">Trujillo</option> <option value="Vargas">La Guaira (Vargas)</option>
+                        <option value="Yaracuy">Yaracuy</option> <option value="Zulia">Zulia</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-black text-emerald-900 ml-1">% GERMINACIÓN</label>
+                    <input type="number" name="indiceGerminacion" placeholder="1-100" class="w-full border-2 p-3 rounded-xl outline-none">
+                </div>
+                <button type="submit" class="md:col-span-3 bg-emerald-700 text-white py-4 rounded-xl font-bold hover:bg-emerald-900 transition shadow-lg">
+                    REGISTRAR LOTE SEMILLA
+                </button>
             </form>
         </div>
 
-        <table class="table table-hover bg-white shadow-sm">
-            <thead class="table-info">
-                <tr><th>Nombre Científico</th><th>Variedad</th></tr>
-            </thead>
-            <tbody>
-                <% semillas.forEach(semi => { %>
-                <tr>
-                    <td><i><%= semi.nombreCientifico %></i></td>
-                    <td><%= semi.variedad %></td>
-                </tr>
-                <% }) %>
-            </tbody>
-        </table>
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <table class="w-full">
+                <thead class="bg-emerald-50 text-emerald-900 border-b">
+                    <tr>
+                        <th class="p-5 text-left">Rubro / Variedad</th>
+                        <th class="p-5 text-left">Lote</th>
+                        <th class="p-5 text-left">Estado Origen</th>
+                        <th class="p-5 text-center">% Germ.</th>
+                        <th class="p-5 text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% semillas.forEach(s => { %>
+                    <tr class="border-b hover:bg-emerald-50/20">
+                        <td class="p-5 italic font-bold text-gray-800"><%= s.nombreCientifico %> <span class="block text-xs font-normal text-gray-400"><%= s.variedad %></span></td>
+                        <td class="p-5 font-mono text-emerald-600 font-bold"><%= s.codigoLote %></td>
+                        <td class="p-5 text-gray-600"><%= s.origen %></td>
+                        <td class="p-5 text-center font-black text-green-600"><%= s.indiceGerminacion %>%</td>
+                        <td class="p-5 text-center flex justify-center gap-4">
+                            <a href="/semillas/<%= s._id %>" class="text-blue-500 font-bold hover:underline">Editar</a>
+                            <a href="/semillas/delete/<%= s._id %>" class="text-red-400 text-sm hover:underline" onclick="return confirm('¿Borrar?')">Eliminar</a>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>
