@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import Semilla from "../models/Semilla";
 
+// Recupera todas las semillas certificadas permitiendo filtrar por rubro o variedad
 export const getAllSemillas = async (req: Request, res: Response) => {
     try {
         const { search } = req.query;
@@ -17,6 +18,7 @@ export const getAllSemillas = async (req: Request, res: Response) => {
     }
 };
 
+// Carga la información de una semilla específica para su modificación
 export const getSemillaById = async (req: Request, res: Response) => {
     try {
         const semilla = await Semilla.findById(req.params.id);
@@ -27,6 +29,7 @@ export const getSemillaById = async (req: Request, res: Response) => {
     }
 };
 
+// Guarda una nueva entrada de semilla certificada en el banco de germoplasma
 export const createSemilla = async (req: Request, res: Response) => {
     try {
         await Semilla.create(req.body);
@@ -36,6 +39,7 @@ export const createSemilla = async (req: Request, res: Response) => {
     }
 };
 
+// Actualiza los parámetros de calidad y origen de un lote de semillas
 export const updateSemilla = async (req: Request, res: Response) => {
     try {
         await Semilla.findByIdAndUpdate(req.params.id, req.body, { runValidators: true });
@@ -45,6 +49,7 @@ export const updateSemilla = async (req: Request, res: Response) => {
     }
 };
 
+// Elimina el registro de un lote de semillas del sistema
 export const deleteSemilla = async (req: Request, res: Response) => {
     try {
         await Semilla.findByIdAndDelete(req.params.id);

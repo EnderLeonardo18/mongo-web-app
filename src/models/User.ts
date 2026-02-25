@@ -1,5 +1,6 @@
 import mongoose, { Schema, model, type Document } from "mongoose";
 
+// Define la estructura de datos para los usuarios del sistema
 export interface IUser extends Document {
     nombre: string;
     correo: string;
@@ -9,6 +10,7 @@ export interface IUser extends Document {
     fechaCreacion: Date;
 }
 
+// Configura las reglas y validaciones del esquema de usuario
 const userSchema = new Schema<IUser>({
     nombre: { type: String, required: [true, 'El nombre es obligatario']},
     correo: { type: String, required: [true, 'El correo es obligatorio'] },
@@ -19,10 +21,7 @@ const userSchema = new Schema<IUser>({
 });
 
 
-// Si ya existe (mongoose.models.Usuario), lo usa; si no, lo crea (model(...))
+// Verifica si el modelo ya existe para evitar errores de duplicidad en tiempo de ejecución
 const Usuario = mongoose.models.Usuario || model<IUser>('Usuario', userSchema);
 
-
-
-// export default model('Usuario', userSchema);
 export default Usuario;

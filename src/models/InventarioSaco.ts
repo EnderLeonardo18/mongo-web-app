@@ -1,5 +1,6 @@
 import mongoose, { Schema, model, type Document } from 'mongoose';
 
+// Define la estructura de datos para el inventario de sacos en stock
 export interface IInventarioSaco extends Document {
     codigoSaco: string;
     tipoProducto: string;
@@ -8,6 +9,7 @@ export interface IInventarioSaco extends Document {
     ubicacion: string;
 }
 
+// Configura las reglas y validaciones del esquema de inventario
 const sacoSchema = new Schema<IInventarioSaco>({
     codigoSaco: { type: String, required: true },
     tipoProducto: String,
@@ -16,4 +18,7 @@ const sacoSchema = new Schema<IInventarioSaco>({
     ubicacion: String
 });
 
-export default mongoose.models.InventarioSaco || model<IInventarioSaco>('InventarioSaco', sacoSchema);
+// Verifica si el modelo ya existe para evitar errores de duplicidad en tiempo de ejecución
+const InventarioSaco = mongoose.models.InventarioSaco || model<IInventarioSaco>('InventarioSaco', sacoSchema);
+
+export default InventarioSaco;

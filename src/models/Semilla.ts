@@ -1,5 +1,6 @@
 import mongoose, { Schema, model, type Document } from 'mongoose';
 
+// Define la estructura de datos para el control de semillas certificadas
 export interface ISemilla extends Document {
     nombreCientifico: string;
     variedad: string;
@@ -9,6 +10,7 @@ export interface ISemilla extends Document {
     fechaPrueba: Date;
 }
 
+// Configura las reglas y validaciones del esquema de semillas
 const semillaSchema = new Schema<ISemilla>({
     nombreCientifico: { type: String, required: true },
     variedad: String,
@@ -18,4 +20,7 @@ const semillaSchema = new Schema<ISemilla>({
     fechaPrueba: { type: Date, default: Date.now }
 });
 
-export default mongoose.models.Semilla || model<ISemilla>('Semilla', semillaSchema);
+// Verifica si el modelo ya existe para evitar errores de duplicidad en tiempo de ejecución
+const Semilla = mongoose.models.Semilla || model<ISemilla>('Semilla', semillaSchema)
+
+export default Semilla;

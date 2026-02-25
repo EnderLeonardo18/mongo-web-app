@@ -3,96 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Historial de Movimientos - AgroInventario</title>
+    <title>Historial de Movimientos - AgroSistema</title>
 </head>
 <body class="bg-gray-50">
     <%- include('../partials/navbar') %>
 
     <div class="container mx-auto p-6">
-        <h2 class="text-2xl font-bold mb-6 text-gray-800">Bitácora de Entradas y Salidas</h2>
+        <h2 class="text-3xl font-bold mb-8 text-gray-800 border-l-8 border-emerald-600 pl-4">📊 Bitácora de Movimientos</h2>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-emerald-600 h-fit">
-                <h3 class="text-lg font-bold mb-4 text-emerald-800">Registrar Nuevo Movimiento</h3>
-                <form action="/movimientos" method="POST" class="space-y-4">
+            <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-emerald-600 h-fit">
+                <h3 class="text-lg font-bold mb-4 text-emerald-800 uppercase text-center">Registrar Actividad</h3>
+                <form action="/movimientos" method="POST" class="space-y-5">
                     
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Identificador del Saco</label>
-                        <input type="text" name="identificadorSaco" 
-                               placeholder="Ej: SACO-001 o Código de Lote" 
-                               class="w-full border p-2.5 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none" required>
-                        <p class="text-[10px] text-gray-400 mt-1 italic">Ingrese el código único impreso en el saco.</p>
+                        <label class="block text-xs font-bold text-gray-500 mb-1 uppercase text-emerald-700">Seleccionar Producto en Stock</label>
+                        <select name="identificadorSaco" class="w-full border-2 p-3 rounded-lg bg-white outline-none focus:border-emerald-500 transition" required>
+                            <option value="" disabled selected>-- Seleccione un lote del stock --</option>
+                            <% sacos.forEach(saco => { %>
+                                <option value="<%= saco.codigoSaco %>">
+                                    <%= saco.tipoProducto %> (ID: <%= saco.codigoSaco %>) - Disponible: <%= saco.cantidadDisponible %>
+                                </option>
+                            <% }) %>
+                        </select>
+                        <p class="text-[10px] text-gray-400 mt-1 italic font-medium">Solo aparecen los productos registrados en la sección de Sacos.</p>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre del Operador</label>
-                        <input type="text" name="nombreUsuario" 
-                               placeholder="Ej: Juan Pérez" 
-                               class="w-full border p-2.5 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none" required>
-                        <p class="text-[10px] text-gray-400 mt-1 italic">Persona responsable de mover la mercancía.</p>
+                        <label class="block text-xs font-bold text-gray-500 mb-1 uppercase">Nombre del Operador</label>
+                        <input type="text" name="nombreUsuario" placeholder="Nombre del responsable" class="w-full border-2 p-3 rounded-lg outline-none focus:border-emerald-500" required>
                     </div>
                     
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
-                            <select name="tipo" class="w-full border p-2.5 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
-                                <option value="Entrada">Entrada (+)</option>
-                                <option value="Salida">Salida (-)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Cantidad</label>
-                            <input type="number" name="cantidad" 
-                                   placeholder="Ej: 50" 
-                                   class="w-full border p-2.5 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none" required>
-                        </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 mb-1 uppercase text-emerald-700">Tipo de Operación</label>
+                        <select name="tipo" class="w-full border-2 p-3 rounded-lg outline-none focus:border-emerald-500">
+                            <option value="Entrada">📥 Entrada al Almacén</option>
+                            <option value="Salida">📤 Salida del Almacén</option>
+                        </select>
                     </div>
-                    
-                    <button class="w-full bg-emerald-600 text-white py-3 rounded-lg font-bold hover:bg-emerald-700 transition shadow-lg mt-2">
-                        Confirmar Registro
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 mb-1 uppercase">Cantidad de Sacos</label>
+                        <input type="number" name="cantidad" class="w-full border-2 p-3 rounded-lg outline-none focus:border-emerald-500" placeholder="Ej: 50" required min="1">
+                    </div>
+
+                    <button type="submit" class="w-full bg-emerald-600 text-white py-4 rounded-xl font-black hover:bg-emerald-800 transition uppercase shadow-lg text-sm tracking-widest">
+                        Confirmar Movimiento
                     </button>
                 </form>
             </div>
 
-            <div class="lg:col-span-2 bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
                 <table class="w-full">
-                    <thead class="bg-gray-50 border-b">
+                    <thead class="bg-gray-800 text-white text-xs font-bold uppercase">
                         <tr>
-                            <th class="p-4 text-left text-xs font-bold text-gray-500 uppercase">Saco</th>
-                            <th class="p-4 text-left text-xs font-bold text-gray-500 uppercase">Operador</th>
-                            <th class="p-4 text-center text-xs font-bold text-gray-500 uppercase">Tipo</th>
-                            <th class="p-4 text-center text-xs font-bold text-gray-500 uppercase">Cant.</th>
-                            <th class="p-4 text-center text-xs font-bold text-gray-500 uppercase">Acciones</th>
+                            <th class="p-5 text-left">Código Lote</th>
+                            <th class="p-5 text-left">Operador</th>
+                            <th class="p-5 text-center">Acción</th>
+                            <th class="p-5 text-center">Cant.</th>
+                            <th class="p-5 text-center">Fecha</th>
+                            <th class="p-5 text-center">Opciones</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody>
                         <% movimientos.forEach(m => { %>
-                        <tr class="hover:bg-emerald-50/40 transition">
-                            <td class="p-4 font-bold text-gray-700"><%= m.identificadorSaco %></td>
-                            <td class="p-4 text-gray-600 text-sm"><%= m.nombreUsuario %></td>
-                            <td class="p-4 text-center">
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase <%= m.tipo === 'Entrada' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
+                        <tr class="border-b hover:bg-emerald-50/50 transition text-sm">
+                            <td class="p-5 font-mono font-bold text-emerald-700"><%= m.identificadorSaco %></td>
+                            <td class="p-5 text-gray-600 font-medium"><%= m.nombreUsuario %></td>
+                            <td class="p-5 text-center">
+                                <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase <%= m.tipo === 'Entrada' ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200' %>">
                                     <%= m.tipo %>
                                 </span>
                             </td>
-                            <td class="p-4 text-center font-mono font-bold"><%= m.cantidad %></td>
-                            <td class="p-4 text-center">
-                                <div class="flex justify-center gap-3">
-                                    <a href="/movimientos/<%= m._id %>" class="text-blue-600 hover:text-blue-800 flex items-center gap-1 font-semibold text-sm">
-                                        Editar
-                                    </a>
-                                    <a href="/movimientos/delete/<%= m._id %>" 
-                                       class="text-red-400 hover:text-red-600 text-sm" 
-                                       onclick="return confirm('¿Desea eliminar este registro de la bitácora?')">
-                                        Borrar
-                                    </a>
-                                </div>
+                            <td class="p-5 text-center font-bold text-gray-800"><%= m.cantidad %></td>
+                            <td class="p-5 text-center text-xs text-gray-400 font-medium">
+                                <%= m.fecha.toLocaleDateString() %>
+                            </td>
+                            <td class="p-5 text-center flex justify-center gap-3">
+                                <a href="/movimientos/<%= m._id %>" class="text-blue-600 hover:text-blue-800 font-bold" title="Editar">
+                                    ✏️
+                                </a>
+                                <a href="/movimientos/delete/<%= m._id %>" class="text-red-500 hover:text-red-700 font-bold" title="Eliminar" onclick="return confirm('¿Estás seguro de eliminar este registro?')">
+                                    🗑️
+                                </a>
                             </td>
                         </tr>
                         <% }) %>
+                        
                         <% if(movimientos.length === 0) { %>
                             <tr>
-                                <td colspan="5" class="p-8 text-center text-gray-400 italic">No hay movimientos registrados hoy.</td>
+                                <td colspan="6" class="p-12 text-center text-gray-400">
+                                    <div class="flex flex-col items-center">
+                                        <span class="text-4xl mb-2">📋</span>
+                                        <p class="italic text-sm">No hay registros de movimientos todavía.</p>
+                                    </div>
+                                </td>
                             </tr>
                         <% } %>
                     </tbody>

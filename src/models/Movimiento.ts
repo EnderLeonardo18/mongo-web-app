@@ -1,5 +1,6 @@
 import mongoose, { Schema, model, type Document } from 'mongoose';
 
+// Define la estructura de datos para la bitácora de entradas y salidas
 export interface IMovimiento extends Document {
     identificadorSaco: string; 
     nombreUsuario: string;     
@@ -8,6 +9,7 @@ export interface IMovimiento extends Document {
     fecha: Date;
 }
 
+// Configura las reglas y validaciones del esquema de movimientos
 const movimientoSchema = new Schema<IMovimiento>({
     identificadorSaco: String,
     nombreUsuario: String,
@@ -16,4 +18,7 @@ const movimientoSchema = new Schema<IMovimiento>({
     fecha: { type: Date, default: Date.now }
 });
 
-export default mongoose.models.Movimiento || model<IMovimiento>('Movimiento', movimientoSchema);
+// Verifica si el modelo ya existe para evitar errores de duplicidad en tiempo de ejecución
+const Movimiento = mongoose.models.Movimiento || model<IMovimiento>('Movimiento', movimientoSchema);
+
+export default Movimiento;

@@ -2,7 +2,6 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Inventario de Sacos - AgroSistema</title>
 </head>
@@ -10,81 +9,89 @@
     <%- include('../partials/navbar') %>
 
     <div class="container mx-auto p-6">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-3xl font-extrabold text-gray-800">📦 Inventario de Sacos</h2>
-            <form action="/sacos" method="GET" class="flex gap-2">
-                <input type="text" name="search" value="<%= search %>" placeholder="Buscar código o producto..." class="border p-2 rounded-lg w-64 outline-none focus:ring-2 focus:ring-emerald-500">
-                <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700">Buscar</button>
-            </form>
-        </div>
+        <h2 class="text-3xl font-extrabold text-gray-800 mb-6 text-center">📦 Inventario de Sacos</h2>
 
-        <div class="bg-white p-6 rounded-xl shadow-lg mb-8 border border-gray-100">
-            <h3 class="text-lg font-bold mb-4 text-emerald-700">➕ Registrar Entrada de Stock</h3>
-            <form action="/sacos" method="POST" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-lg mb-8 border-t-8 border-emerald-500">
+            <h3 class="text-lg font-bold mb-4 text-emerald-700">➕ Registrar Stock</h3>
+            <form action="/sacos" method="POST" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
-                    <label class="block text-xs font-bold text-gray-500 mb-1">CÓDIGO DE SACO</label>
-                    <input type="text" name="codigoSaco" placeholder="Ej: SAC-001" class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 mb-1">PRODUCTO</label>
-                    <input type="text" name="tipoProducto" placeholder="Ej: Maíz Amarillo" class="w-full border p-3 rounded-lg outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 mb-1">PESO (KG)</label>
-                    <input type="number" name="pesoNetoKg" placeholder="Ej: 50" class="w-full border p-3 rounded-lg outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 mb-1">CANTIDAD</label>
-                    <input type="number" name="cantidadDisponible" placeholder="Sacos en físico" class="w-full border p-3 rounded-lg outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 mb-1">ESTADO (UBICACIÓN)</label>
-                    <select name="ubicacion" class="w-full border p-3 rounded-lg bg-white outline-none focus:ring-2 focus:ring-emerald-500">
-                        <option value="" disabled selected>Seleccione un estado...</option>
-                        <option value="Amazonas">Amazonas</option> <option value="Anzoátegui">Anzoátegui</option>
-                        <option value="Apure">Apure</option> <option value="Aragua">Aragua</option>
-                        <option value="Barinas">Barinas</option> <option value="Bolívar">Bolívar</option>
-                        <option value="Carabobo">Carabobo</option> <option value="Cojedes">Cojedes</option>
-                        <option value="Delta Amacuro">Delta Amacuro</option> <option value="Distrito Capital">Distrito Capital</option>
-                        <option value="Falcón">Falcón</option> <option value="Guárico">Guárico</option>
-                        <option value="Lara">Lara</option> <option value="Mérida">Mérida</option>
-                        <option value="Miranda">Miranda</option> <option value="Monagas">Monagas</option>
-                        <option value="Nueva Esparta">Nueva Esparta</option> <option value="Portuguesa">Portuguesa</option>
-                        <option value="Sucre">Sucre</option> <option value="Táchira">Táchira</option>
-                        <option value="Trujillo">Trujillo</option> <option value="Vargas">La Guaira (Vargas)</option>
-                        <option value="Yaracuy">Yaracuy</option> <option value="Zulia">Zulia</option>
-                        <option value="Dependencias Federales">Dependencias Federales</option>
+                    <label class="block text-xs font-bold text-emerald-800 mb-1">PRODUCTO / RUBRO</label>
+                    <select id="selectProducto" name="tipoProducto" class="w-full border-2 p-2.5 rounded-lg outline-none focus:border-emerald-500 bg-white" required>
+                        <option value="" selected disabled>Elija un producto...</option>
+                        <option value="Maíz Amarillo">Maíz Amarillo</option>
+                        <option value="Arroz Blanco">Arroz Blanco</option>
+                        <option value="Sorgó">Sorgó</option>
+                        <option value="Girasol">Girasol</option>
+                        <option value="Soya">Soya</option>
+                        <option value="Frijol">Frijol</option>
+                        <option value="Caraota">Caraota</option>
+                        <option value="Café">Café</option>
+                        <option value="Cacao">Cacao</option>
+                        <option value="Trigo">Trigo</option>
                     </select>
                 </div>
-                <div class="flex items-end">
-                    <button type="submit" class="w-full bg-emerald-600 text-white p-3 rounded-lg font-bold hover:bg-emerald-700 transition">Guardar Registro</button>
+
+                <div>
+                    <label class="block text-xs font-bold text-emerald-800 mb-1">CÓDIGO DE LOTE</label>
+                    <input type="text" id="inputCodigo" name="codigoSaco" class="w-full border-2 p-2.5 rounded-lg bg-gray-100 font-mono font-bold text-emerald-700" readonly placeholder="Automático">
                 </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-emerald-800 mb-1">CANTIDAD (SACOS)</label>
+                    <input type="number" name="cantidadDisponible" class="w-full border-2 p-2.5 rounded-lg outline-none focus:border-emerald-500" required>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-emerald-800 mb-1">PESO (KG)</label>
+                    <input type="number" name="pesoNetoKg" class="w-full border-2 p-2.5 rounded-lg outline-none focus:border-emerald-500" placeholder="40">
+                </div>
+
+                <div class="md:col-span-2 lg:col-span-2">
+                    <label class="block text-xs font-bold text-emerald-800 mb-1">ESTADO / UBICACIÓN</label>
+                    <select name="ubicacion" class="w-full border-2 p-2.5 rounded-lg bg-white outline-none focus:border-emerald-500" required>
+                        <option value="" disabled selected>Seleccione el estado...</option>
+                        <option value="Amazonas">Amazonas</option><option value="Anzoátegui">Anzoátegui</option>
+                        <option value="Apure">Apure</option><option value="Aragua">Aragua</option>
+                        <option value="Barinas">Barinas</option><option value="Bolívar">Bolívar</option>
+                        <option value="Carabobo">Carabobo</option><option value="Cojedes">Cojedes</option>
+                        <option value="Delta Amacuro">Delta Amacuro</option><option value="Distrito Capital">Distrito Capital</option>
+                        <option value="Falcón">Falcón</option><option value="Guárico">Guárico</option>
+                        <option value="Lara">Lara</option><option value="Mérida">Mérida</option>
+                        <option value="Miranda">Miranda</option><option value="Monagas">Monagas</option>
+                        <option value="Nueva Esparta">Nueva Esparta</option><option value="Portuguesa">Portuguesa</option>
+                        <option value="Sucre">Sucre</option><option value="Táchira">Táchira</option>
+                        <option value="Trujillo">Trujillo</option><option value="Vargas">La Guaira (Vargas)</option>
+                        <option value="Yaracuy">Yaracuy</option><option value="Zulia">Zulia</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="md:col-span-3 bg-emerald-600 text-white p-4 rounded-xl font-bold hover:bg-emerald-700 shadow-md transition uppercase">Registrar Inventario</button>
             </form>
         </div>
 
         <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-gray-800 text-white">
+            <table class="w-full text-left">
+                <thead class="bg-gray-800 text-white uppercase text-xs">
+                    <tr>
                         <th class="p-4">Código</th>
                         <th class="p-4">Producto</th>
-                        <th class="p-4">Peso</th>
                         <th class="p-4 text-center">Stock</th>
-                        <th class="p-4">Ubicación</th>
+                        <th class="p-4 text-center">Peso</th>
+                        <th class="p-4">Estado</th>
                         <th class="p-4 text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% sacos.forEach(saco => { %>
-                    <tr class="border-b hover:bg-gray-50">
-                        <td class="p-4 font-mono font-bold text-emerald-700"><%= saco.codigoSaco %></td>
-                        <td class="p-4"><%= saco.tipoProducto %></td>
-                        <td class="p-4"><%= saco.pesoNetoKg %> kg</td>
-                        <td class="p-4 text-center font-bold text-blue-600"><%= saco.cantidadDisponible %></td>
-                        <td class="p-4 text-gray-600"><%= saco.ubicacion %></td>
-                        <td class="p-4 flex justify-center gap-3">
-                            <a href="/sacos/<%= saco._id %>" class="text-blue-600 hover:underline">Editar</a>
-                            <a href="/sacos/delete/<%= saco._id %>" class="text-red-600 hover:underline" onclick="return confirm('¿Eliminar?')">Borrar</a>
+                    <tr class="border-b hover:bg-emerald-50 transition">
+                        <td class="p-4 font-mono font-bold text-emerald-700 text-sm"><%= saco.codigoSaco %></td>
+                        <td class="p-4 font-semibold text-gray-700"><%= saco.tipoProducto %></td>
+                        <td class="p-4 text-center font-bold text-emerald-600"><%= saco.cantidadDisponible %></td>
+                        <td class="p-4 text-center text-gray-500"><%= saco.pesoNetoKg %>kg</td>
+                        <td class="p-4 text-gray-600 text-sm"><%= saco.ubicacion %></td>
+                        <td class="p-4 text-center">
+                            <a href="/sacos/<%= saco._id %>" class="text-blue-600 font-bold mr-3">Editar</a>
+                            <a href="/sacos/delete/<%= saco._id %>" class="text-red-500 font-bold" onclick="return confirm('¿Eliminar?')">Borrar</a>
                         </td>
                     </tr>
                     <% }) %>
@@ -92,5 +99,23 @@
             </table>
         </div>
     </div>
+
+    <script>
+        const mapeoCodigos = {
+            "Maíz Amarillo": "LOTE-MA-2026",
+            "Arroz Blanco": "LOTE-ARZ-2026",
+            "Sorgó": "LOTE-SRG-2026",
+            "Girasol": "LOTE-GIR-2026",
+            "Soya": "LOTE-SOY-2026",
+            "Frijol": "LOTE-FRJ-2026",
+            "Caraota": "LOTE-CAR-2026",
+            "Café": "LOTE-CAF-2026",
+            "Cacao": "LOTE-CAC-2026",
+            "Trigo": "LOTE-TRI-2026"
+        };
+        const sel = document.getElementById('selectProducto');
+        const cod = document.getElementById('inputCodigo');
+        sel.addEventListener('change', () => { cod.value = mapeoCodigos[sel.value] || ""; });
+    </script>
 </body>
 </html>

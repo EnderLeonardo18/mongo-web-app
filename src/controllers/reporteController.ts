@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import Reporte from "../models/Reporte";
 
+// Obtiene el listado de reportes generados con opción de búsqueda por título
 export const getAllReportes = async (req: Request, res: Response) => {
     try {
         const { search } = req.query;
@@ -13,6 +14,7 @@ export const getAllReportes = async (req: Request, res: Response) => {
     }
 };
 
+// Recupera un reporte específico por su ID para visualizar o editar su contenido
 export const getReporteById = async (req: Request, res: Response) => {
     try {
         const reporte = await Reporte.findById(req.params.id);
@@ -23,6 +25,7 @@ export const getReporteById = async (req: Request, res: Response) => {
     }
 };
 
+// Registra un nuevo informe técnico o estadístico en la base de datos
 export const createReporte = async (req: Request, res: Response) => {
     try {
         await Reporte.create(req.body);
@@ -32,6 +35,7 @@ export const createReporte = async (req: Request, res: Response) => {
     }
 };
 
+// Actualiza la información o las conclusiones de un reporte existente
 export const updateReporte = async (req: Request, res: Response) => {
     try {
         await Reporte.findByIdAndUpdate(req.params.id, req.body, { runValidators: true });
@@ -41,6 +45,7 @@ export const updateReporte = async (req: Request, res: Response) => {
     }
 };
 
+// Elimina un reporte del historial de forma permanente
 export const deleteReporte = async (req: Request, res: Response) => {
     try {
         await Reporte.findByIdAndDelete(req.params.id);

@@ -31,11 +31,14 @@ app.use(express.json());
 app.use(methodOverride('_method')); // Permite usar PUT y DELETE en formularios
 app.use(express.static(path.join(__dirname, '../public')));
 
+
+// Registra el enrutador central que coordina todos los módulos del sistema
 app.use(indexRoutes);
-// Rutas
+// Establece la redirección inicial para enviar al usuario a la pantalla principal
 app.use('/', (req, res) => res.redirect('/usuarios'));
 
 
+// Inicia el servidor en el puerto configurado y muestra el enlace de acceso
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Servidor en http://localhost:${PORT}/usuarios`);

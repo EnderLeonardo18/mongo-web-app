@@ -10,71 +10,104 @@
     <%- include('../partials/navbar') %>
 
     <div class="container mx-auto p-6">
-        <h2 class="text-3xl font-extrabold text-emerald-800 mb-6">🧪 Variedades y Lotes</h2>
+        <h2 class="text-3xl font-extrabold text-emerald-800 mb-6">🧪 Control de Semillas y Lotes</h2>
 
-        <div class="bg-white p-6 rounded-2xl shadow-lg mb-8 border-t-8 border-emerald-500">
-            <form action="/semillas" method="POST" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="md:col-span-2">
-                    <label class="text-xs font-black text-emerald-900 ml-1">NOMBRE CIENTÍFICO / RUBRO</label>
-                    <input type="text" name="nombreCientifico" placeholder="Ej: Oryza sativa (Arroz)" class="w-full border-2 p-3 rounded-xl focus:border-emerald-500 outline-none" required>
-                </div>
+        <div class="bg-white p-8 rounded-2xl shadow-xl mb-10 border-t-8 border-emerald-600">
+            <h3 class="text-lg font-bold mb-4 text-gray-700">Registrar Nueva Variedad Certificada</h3>
+            <form action="/semillas" method="POST" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
                 <div>
-                    <label class="text-xs font-black text-emerald-900 ml-1">VARIEDAD</label>
-                    <input type="text" name="variedad" placeholder="Ej: Cimarrón" class="w-full border-2 p-3 rounded-xl outline-none">
-                </div>
-                <div>
-                    <label class="text-xs font-black text-emerald-900 ml-1">CÓDIGO DE LOTE</label>
-                    <input type="text" name="codigoLote" placeholder="LOTE-2024" class="w-full border-2 p-3 rounded-xl outline-none">
-                </div>
-                <div>
-                    <label class="text-xs font-black text-emerald-900 ml-1">ESTADO DE ORIGEN</label>
-                    <select name="origen" class="w-full border-2 p-3 rounded-xl bg-white outline-none">
-                        <option value="" disabled selected>Seleccione origen...</option>
-                        <option value="Amazonas">Amazonas</option> <option value="Anzoátegui">Anzoátegui</option>
-                        <option value="Apure">Apure</option> <option value="Aragua">Aragua</option>
-                        <option value="Barinas">Barinas</option> <option value="Bolívar">Bolívar</option>
-                        <option value="Carabobo">Carabobo</option> <option value="Cojedes">Cojedes</option>
-                        <option value="Delta Amacuro">Delta Amacuro</option> <option value="Distrito Capital">Distrito Capital</option>
-                        <option value="Falcón">Falcón</option> <option value="Guárico">Guárico</option>
-                        <option value="Lara">Lara</option> <option value="Mérida">Mérida</option>
-                        <option value="Miranda">Miranda</option> <option value="Monagas">Monagas</option>
-                        <option value="Nueva Esparta">Nueva Esparta</option> <option value="Portuguesa">Portuguesa</option>
-                        <option value="Sucre">Sucre</option> <option value="Táchira">Táchira</option>
-                        <option value="Trujillo">Trujillo</option> <option value="Vargas">La Guaira (Vargas)</option>
-                        <option value="Yaracuy">Yaracuy</option> <option value="Zulia">Zulia</option>
+                    <label class="block text-xs font-black text-emerald-900 mb-2 uppercase">Rubro / Nombre Científico</label>
+                    <select id="semillaSel" name="nombreCientifico" class="w-full border-2 p-3 rounded-xl bg-white outline-none focus:border-emerald-600" required>
+                        <option value="" selected disabled>Seleccione un rubro...</option>
+                        <option value="Maíz (Zea mays)">Maíz (Zea mays)</option>
+                        <option value="Arroz (Oryza sativa)">Arroz (Oryza sativa)</option>
+                        <option value="Girasol (Helianthus)">Girasol (Helianthus)</option>
+                        <option value="Soya (Glycine max)">Soya (Glycine max)</option>
+                        <option value="Caraota (Phaseolus)">Caraota (Phaseolus)</option>
+                        <option value="Café (Coffea)">Café (Coffea)</option>
+                        <option value="Cacao (Theobroma)">Cacao (Theobroma)</option>
+                        <option value="Sorgo (Sorghum)">Sorgo (Sorghum)</option>
+                        <option value="Frijol (Vigna)">Frijol (Vigna)</option>
+                        <option value="Trigo (Triticum)">Trigo (Triticum)</option>
                     </select>
                 </div>
+
                 <div>
-                    <label class="text-xs font-black text-emerald-900 ml-1">% GERMINACIÓN</label>
-                    <input type="number" name="indiceGerminacion" placeholder="1-100" class="w-full border-2 p-3 rounded-xl outline-none">
+                    <label class="block text-xs font-black text-emerald-900 mb-2 uppercase">Variedad Específica</label>
+                    <input type="text" name="variedad" placeholder="Ej: Híbrido Blanco H-20" class="w-full border-2 p-3 rounded-xl outline-none focus:border-emerald-600">
                 </div>
-                <button type="submit" class="md:col-span-3 bg-emerald-700 text-white py-4 rounded-xl font-bold hover:bg-emerald-900 transition shadow-lg">
-                    REGISTRAR LOTE SEMILLA
-                </button>
+
+                <div>
+                    <label class="block text-xs font-black text-emerald-900 mb-2 uppercase">Código Lote (Sistema)</label>
+                    <input type="text" id="loteAuto" name="codigoLote" class="w-full border-2 p-3 rounded-xl bg-gray-50 font-mono font-bold text-emerald-700" readonly>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black text-emerald-900 mb-2 uppercase">Estado de Origen</label>
+                    <select name="origen" class="w-full border-2 p-3 rounded-xl bg-white outline-none focus:border-emerald-600" required>
+                        <option value="" disabled selected>Seleccione el estado...</option>
+                        <option value="Amazonas">Amazonas</option><option value="Anzoátegui">Anzoátegui</option>
+                        <option value="Apure">Apure</option><option value="Aragua">Aragua</option>
+                        <option value="Barinas">Barinas</option><option value="Bolívar">Bolívar</option>
+                        <option value="Carabobo">Carabobo</option><option value="Cojedes">Cojedes</option>
+                        <option value="Delta Amacuro">Delta Amacuro</option><option value="Distrito Capital">Distrito Capital</option>
+                        <option value="Falcón">Falcón</option><option value="Guárico">Guárico</option>
+                        <option value="Lara">Lara</option><option value="Mérida">Mérida</option>
+                        <option value="Miranda">Miranda</option><option value="Monagas">Monagas</option>
+                        <option value="Nueva Esparta">Nueva Esparta</option><option value="Portuguesa">Portuguesa</option>
+                        <option value="Sucre">Sucre</option><option value="Táchira">Táchira</option>
+                        <option value="Trujillo">Trujillo</option><option value="Vargas">La Guaira (Vargas)</option>
+                        <option value="Yaracuy">Yaracuy</option><option value="Zulia">Zulia</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black text-emerald-900 mb-2 uppercase">% Germinación</label>
+                    <input type="number" name="indiceGerminacion" min="0" max="100" placeholder="Ej: 95" class="w-full border-2 p-3 rounded-xl outline-none focus:border-emerald-600">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black text-emerald-900 mb-2 uppercase">Fecha de Análisis</label>
+                    <input type="date" name="fechaPrueba" class="w-full border-2 p-3 rounded-xl outline-none focus:border-emerald-600">
+                </div>
+
+                <div class="lg:col-span-3 pt-2">
+                    <button type="submit" class="w-full bg-emerald-700 text-white py-4 rounded-xl font-black hover:bg-emerald-900 shadow-lg uppercase tracking-widest transition">
+                        Guardar en Banco de Semillas
+                    </button>
+                </div>
             </form>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
             <table class="w-full">
                 <thead class="bg-emerald-50 text-emerald-900 border-b">
                     <tr>
-                        <th class="p-5 text-left">Rubro / Variedad</th>
-                        <th class="p-5 text-left">Lote</th>
-                        <th class="p-5 text-left">Estado Origen</th>
+                        <th class="p-5 text-left">Variedad / Rubro</th>
+                        <th class="p-5 text-left">Código Lote</th>
+                        <th class="p-5 text-left">Origen</th>
                         <th class="p-5 text-center">% Germ.</th>
                         <th class="p-5 text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% semillas.forEach(s => { %>
-                    <tr class="border-b hover:bg-emerald-50/20">
-                        <td class="p-5 italic font-bold text-gray-800"><%= s.nombreCientifico %> <span class="block text-xs font-normal text-gray-400"><%= s.variedad %></span></td>
+                    <tr class="border-b hover:bg-emerald-50/50 transition">
+                        <td class="p-5">
+                            <span class="font-bold text-gray-800 block"><%= s.nombreCientifico %></span>
+                            <span class="text-xs text-gray-400 italic"><%= s.variedad %></span>
+                        </td>
                         <td class="p-5 font-mono text-emerald-600 font-bold"><%= s.codigoLote %></td>
-                        <td class="p-5 text-gray-600"><%= s.origen %></td>
-                        <td class="p-5 text-center font-black text-green-600"><%= s.indiceGerminacion %>%</td>
-                        <td class="p-5 text-center flex justify-center gap-4">
-                            <a href="/semillas/<%= s._id %>" class="text-blue-500 font-bold hover:underline">Editar</a>
-                            <a href="/semillas/delete/<%= s._id %>" class="text-red-400 text-sm hover:underline" onclick="return confirm('¿Borrar?')">Eliminar</a>
+                        <td class="p-5 text-gray-600 text-sm"><%= s.origen %></td>
+                        <td class="p-5 text-center">
+                            <span class="font-black text-emerald-700"><%= s.indiceGerminacion %>%</span>
+                        </td>
+                        <td class="p-5 text-center">
+                            <div class="flex justify-center gap-4">
+                                <a href="/semillas/<%= s._id %>" class="text-blue-500 font-bold hover:underline">Editar</a>
+                                <a href="/semillas/delete/<%= s._id %>" class="text-red-400 font-bold hover:underline" onclick="return confirm('¿Borrar registro?')">Eliminar</a>
+                            </div>
                         </td>
                     </tr>
                     <% }) %>
@@ -82,5 +115,28 @@
             </table>
         </div>
     </div>
+
+    <script>
+        // Mapeo de códigos automáticos para Semillas
+        const codigosSemillas = {
+            "Maíz (Zea mays)": "SEM-MAIZ-2026",
+            "Arroz (Oryza sativa)": "SEM-ARRZ-2026",
+            "Girasol (Helianthus)": "SEM-GIRA-2026",
+            "Soya (Glycine max)": "SEM-SOYA-2026",
+            "Caraota (Phaseolus)": "SEM-CARA-2026",
+            "Café (Coffea)": "SEM-CAFE-2026",
+            "Cacao (Theobroma)": "SEM-CACA-2026",
+            "Sorgo (Sorghum)": "SEM-SORG-2026",
+            "Frijol (Vigna)": "SEM-FRIJ-2026",
+            "Trigo (Triticum)": "SEM-TRIG-2026"
+        };
+
+        const selector = document.getElementById('semillaSel');
+        const inputLote = document.getElementById('loteAuto');
+
+        selector.addEventListener('change', () => {
+            inputLote.value = codigosSemillas[selector.value] || "";
+        });
+    </script>
 </body>
 </html>

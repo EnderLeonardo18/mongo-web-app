@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import InventarioSaco from "../models/InventarioSaco";
 
+// Obtiene el listado de sacos aplicando filtros de búsqueda por código o producto
 export const getAllSacos = async (req: Request, res: Response) => {
     try {
         const { search } = req.query;
@@ -20,6 +21,7 @@ export const getAllSacos = async (req: Request, res: Response) => {
     }
 };
 
+// Busca un saco específico por su ID para mostrar la vista de edición
 export const getSacoById = async (req: Request, res: Response) => {
     try {
         const saco = await InventarioSaco.findById(req.params.id);
@@ -30,6 +32,7 @@ export const getSacoById = async (req: Request, res: Response) => {
     }
 };
 
+// Registra un nuevo lote de sacos en la base de datos y redirecciona al inventario
 export const createSaco = async (req: Request, res: Response) => {
     try {
         await InventarioSaco.create(req.body);
@@ -39,6 +42,7 @@ export const createSaco = async (req: Request, res: Response) => {
     }
 };
 
+// Actualiza los datos de un saco existente validando la información enviada
 export const updateSaco = async (req: Request, res: Response) => {
     try {
         await InventarioSaco.findByIdAndUpdate(req.params.id, req.body, { runValidators: true });
@@ -48,6 +52,7 @@ export const updateSaco = async (req: Request, res: Response) => {
     }
 };
 
+// Elimina permanentemente un registro de saco del inventario
 export const deleteSaco = async (req: Request, res: Response) => {
     try {
         await InventarioSaco.findByIdAndDelete(req.params.id);

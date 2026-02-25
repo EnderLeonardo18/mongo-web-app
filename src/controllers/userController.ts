@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import User from "../models/User";
 
-// 1. Obtener todos los usuarios + BUSCADOR
+// Consulta la lista de usuarios con búsqueda opcional por nombre o correo
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
         const { search } = req.query;
@@ -23,7 +23,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
     }
 };
 
-// 2. Obtener un usuario para EDITAR
+// Obtiene los datos de un usuario para cargar el formulario de edición
 export const getUserById = async (req: Request, res: Response) => {
     try {
         const usuario = await User.findById(req.params.id);
@@ -35,7 +35,7 @@ export const getUserById = async (req: Request, res: Response) => {
     }
 };
 
-
+// Registra un nuevo usuario en el sistema con los datos proporcionados
 export const createUser = async (req: Request, res: Response) => {
     try {
         await User.create(req.body);
@@ -45,7 +45,7 @@ export const createUser = async (req: Request, res: Response) => {
     }
 };
 
-// 3. Guardar cambios (UPDATE)
+// Actualiza la información del usuario gestionando la conversión de estados booleanos
 export const updateUser = async (req: Request, res: Response) => {
     try {
         // Convertimos el valor de 'activo' de string a boolean si viene de un checkbox/select
@@ -60,6 +60,7 @@ export const updateUser = async (req: Request, res: Response) => {
     }
 };
 
+// Borra la cuenta de un usuario de forma definitiva
 export const deleteUser = async (req: Request, res: Response) => { 
     try {
         await User.findByIdAndDelete(req.params.id);
