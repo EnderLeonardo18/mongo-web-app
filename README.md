@@ -21,7 +21,7 @@ npm (Incluido con Node.js)
 ## 1. Clonar el repositorio
 
 ```bash
-git clone [https://github.com/EnderLeonardo18/mongo-web-app](https://github.com/EnderLeonardo18/mongo-web-app)
+git clone https://github.com/EnderLeonardo18/mongo-web-app
 ```
 
 ```bash
