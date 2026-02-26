@@ -48,12 +48,15 @@ export const createUser = async (req: Request, res: Response) => {
 // Actualiza la información del usuario gestionando la conversión de estados booleanos
 export const updateUser = async (req: Request, res: Response) => {
     try {
-        // Convertimos el valor de 'activo' de string a boolean si viene de un checkbox/select
-        if (req.body.activo) {
-            req.body.activo = req.body.activo === 'true';
-        }
+        req.body.activo = req.body.activo === 'true';
 
-        await User.findByIdAndUpdate(req.params.id, req.body, { runValidators: true });
+        // Actualizamos el usuario en la base de datos usando el ID de la URL
+        await User.findByIdAndUpdate(req.params.id, req.body, { 
+            runValidators: true, 
+            returnDocument: 'after'
+        });
+
+        // Redirigimos a la lista principal tras el éxito
         res.redirect('/usuarios');
     } catch (error: any) {
         res.status(400).send("Error al actualizar: " + error.message);
