@@ -20,10 +20,13 @@ npm (Incluido con Node.js)
 
 ## 1. Clonar el repositorio
 
-
+```bash
 git clone [https://github.com/EnderLeonardo18/mongo-web-app](https://github.com/EnderLeonardo18/mongo-web-app)
-cd mongo-web-app
+```
 
+```bash
+cd mongo-web-app
+```
 
 ## 2. Instalar dependencias
 
